@@ -26,6 +26,11 @@
                         <li @if(Request::path() == 'users/create') class="active" @endif><a
                                     href="{{ route('createUser') }}">Create User</a></li>
 
+                        <li @if(Request::path() == 'categories') class="active" @endif><a
+                                    href="{{ route('listCategories') }}">Categories</a></li>
+                        <li @if(Request::path() == 'categories/create') class="active" @endif><a
+                                    href="{{ route('createCategory') }}">Create Category</a></li>
+
                     </ul>
                 @endif
                 @if(Auth::user())
