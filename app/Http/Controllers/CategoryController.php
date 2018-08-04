@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('show');
     }
 
 
@@ -20,6 +20,13 @@ class CategoryController extends Controller
         $categories = Category::all();
 
         return view('category.index', compact('categories'));
+    }
+
+    // show filtered posts by category
+    public function show(Category $category){
+        $posts = $category->posts()->where('status',1)->latest()->get();
+        $categories = Category::all();
+        return view('welcome', compact('posts','categories'));
     }
 
     public function create()

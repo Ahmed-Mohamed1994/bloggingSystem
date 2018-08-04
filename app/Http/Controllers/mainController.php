@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Http\Requests\UserLoginRequest;
+use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +16,9 @@ class mainController extends Controller
     }
 
     public function index(){
-        return view('welcome');
+        $posts = Post::where('status',1)->latest()->get();
+        $categories = Category::all();
+        return view('welcome', compact('posts','categories'));
     }
 
     public function dashboard(){

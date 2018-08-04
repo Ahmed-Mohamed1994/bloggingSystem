@@ -48,3 +48,27 @@ Route::group(['prefix' => 'categories'], function () {
     });
 
 });
+
+// posts routes
+Route::group(['prefix' => 'posts'], function () {
+
+    Route::get('/', 'PostController@index')->name('listPosts');
+    Route::get('/create', 'PostController@create')->name('createPost');
+    Route::post('/store', 'PostController@store')->name('storePost');
+    // filter by category
+    Route::get('/category/{category}', 'CategoryController@show')->name('categoryPost');
+
+    // comment route delete
+    Route::get('/comments/{comment}', 'CommentController@destroy')->name('deleteComment');
+
+    Route::group(['prefix' => '{post}'], function () {
+        Route::get('/', 'PostController@show')->name('showPost');
+        Route::get('/edit', 'PostController@edit')->name('editPost');
+        Route::post('/update', 'PostController@update')->name('updatePost');
+        Route::get('/delete', 'PostController@destroy')->name('deletePost');
+        // comments route
+        Route::post('/comments', 'CommentController@store')->name('storeComment');
+    });
+
+});
+

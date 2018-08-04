@@ -1,94 +1,65 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.master')
 
-        <title>Laravel</title>
+@section('title')
+    blogging system
+@endsection
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+@section('style')
+    <style>
+        .post-article{
+            border: 1px solid #bbbaba;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 15px 0;
+        }
+        .well{
+            margin-top: 15px;
+        }
+    </style>
+@endsection
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+@section('content')
 
-            .full-height {
-                height: 100vh;
-            }
+    <!-- Blog Post Content Column -->
+    <div class="col-md-8">
+    @if(count($posts) > 0)
+        @foreach($posts as $post)
+            <div class="post-article">
+                <!-- Title -->
+                <a href="{{ route('showPost',['post' => $post->id]) }}"><h1>{{ $post->title }}</h1></a>
+                <hr>
+                <!-- Date/Time -->
+                <p><span class="glyphicon glyphicon-time"></span> Posted on {{ $post->created_at->toFormattedDateString() }}
+                    at {{ $post->created_at->diffForHumans() }}</p>
+                <hr>
+                <!-- Preview Image -->
+                <img class="img-responsive" src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}">
+            </div>
+        @endforeach
+    @else
+        <h1>No Posts Found</h1>
+    @endif
+    </div>
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+    <!-- Blog Sidebar Widgets Column -->
+    <div class="col-md-4">
 
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+        <!-- Blog Categories Well -->
+        <div class="well">
+            <h4>Filter Blogs</h4>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="list-unstyled">
+                        @foreach($categories as $category)
+                            <li><a href="{{ route('categoryPost', ['category' => $category->id]) }}">{{ $category->name }}</a></li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
+            <!-- /.row -->
         </div>
-    </body>
-</html>
+
+
+    </div>
+
+@endsection

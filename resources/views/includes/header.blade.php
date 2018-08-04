@@ -11,6 +11,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 @if(Auth::user())
+                    <a class="navbar-brand" href="{{ route('home') }}">Home</a>
                     <a class="navbar-brand" href="{{ route('dashboard') }}">Dashboard</a>
                 @else
                     <a class="navbar-brand" href="{{ route('home') }}">Blogging System</a>
@@ -30,6 +31,11 @@
                                     href="{{ route('listCategories') }}">Categories</a></li>
                         <li @if(Request::path() == 'categories/create') class="active" @endif><a
                                     href="{{ route('createCategory') }}">Create Category</a></li>
+
+                        <li @if(Request::path() == 'posts') class="active" @endif><a
+                                    href="{{ route('listPosts') }}">Posts</a></li>
+                        <li @if(Request::path() == 'posts/create') class="active" @endif><a
+                                    href="{{ route('createPost') }}">Create Post</a></li>
 
                     </ul>
                 @endif
